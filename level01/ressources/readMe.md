@@ -10,11 +10,11 @@ Find the password hash for `flag01`, crack it, and retrieve the token to progres
    ```bash
    find / -type f -exec grep -l "flag01" {} \; 2>/dev/null
    ```
-   - `-exec` indique que pour chaque fichier trouvé, une commande spécifique sera exécutée.  
+   - `-exec`: indicates that for each file found, a specific command will be executed..  
    - `grep -l "flag01"`:  
-   grep recherche le texte `"flag01"` à l’intérieur du fichier.  
-   L’option `-l` fait que grep n’affiche que le nom du fichier si la chaîne est trouvée, pas le contenu correspondant.
-   - `{}` représente chaque fichier trouvé par find.  
+   grep searches for the text "flag01" inside the file.  
+   The -l option makes grep display only the name of the file if the string is found, not the matching content.  
+   - `{}` dynamically represents the path of the file found by find at that moment.     
 
 	This command reveals the following files:
    ```
