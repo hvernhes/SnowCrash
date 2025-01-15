@@ -1,12 +1,24 @@
 
-level 00 : pass: level00
-	chercher le fichiers appartenant a flag00 : find / -user flag00 2>/dev/null
-	on utilise la commande find et on redirige les erreurs vers /null
-	avec la commande on trouve les ifchiers appartenant au user flag00 -> un fichier nommé john
-	cat john -> cdiiddwpgswtgt
-	semble crypté -> 1ere idee chiffrement cesar:https://www.dcode.fr/chiffre-cesar
-	cdiiddwpgswtgt -> dechiffrement cesar(decalage de 15) -> nottoohardhere
+## Level 00
 
-flag00 : pass: nottoohardhere 
-	token: x24ti5gi3x0o12eh4esiuxias
+### Steps
+
+1. **Search for Files Owned by `flag00`:**  
+   Use the `find` command to locate files belonging to the user `flag00`, while redirecting error messages to `/dev/null` to avoid cluttering the output:  
+   ```bash
+   find / -user flag00 2>/dev/null
+   ```
+   This command reveals a file named john.
+
+2. **Examine the File:**  
+   Display the contents of the file john:
+   ```bash
+   cat john
+   ```
+   Output: cdiiddwpgswtgt
+
+3. **Decrypt the Content:**  
+	The content appears encrypted. A first hypothesis is that it's encrypted using the Caesar cipher. 
+	I used Use an online tool to decrypt it: https://www.dcode.fr/chiffre-cesar  
+	Decryption result: nottoohardhere
 
