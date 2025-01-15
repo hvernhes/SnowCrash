@@ -10,17 +10,23 @@ Locate the file owned by the user `flag00` and retrieve the password to progress
    ```bash
    find / -user flag00 2>/dev/null
    ```
-   This command reveals a file named john.
+   This command reveals a file named `john`.
 
 2. **Examine the File:**  
    Display the contents of the file john:
    ```bash
    cat john
    ```
-   Output: cdiiddwpgswtgt
+   Output: 
+   ```
+   cdiiddwpgswtgt
+   ```
 
 3. **Decrypt the Content:**  
 	The content appears encrypted. A first hypothesis is that it's encrypted using the Caesar cipher. 
 	I used Use an online tool to decrypt it: https://www.dcode.fr/chiffre-cesar  
-	Decryption result: nottoohardhere
+	Decryption result: 
+   ```
+   nottoohardhere
+   ```
 
