@@ -49,7 +49,7 @@ Retrieve the token by exploiting a binary named `level03`.
       ```
       Output:  
       ```
-      Here is your token: qi0maab88jeaj46qoumi7maus
+      Check flag.Here is your token: qi0maab88jeaj46qoumi7maus
       ```
 
 4. **Why This Exploit Works:**
