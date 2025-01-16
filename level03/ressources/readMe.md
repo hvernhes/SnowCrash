@@ -36,3 +36,18 @@ export PATH=/tmp:$PATH
 c) Exécuter la commande vulnérable :
 ./level03
 -> Check flag.Here is your token : qi0maab88jeaj46qoumi7maus
+
+Voici pourquoi ./level03 fonctionne avec cette méthode, mais getflag directement dans le shell ne fonctionne pas :
+Le programme level03 est exécuté avec des permissions spécifiques :
+
+    Le binaire level03 est probablement configuré avec le bit SUID activé. Cela signifie qu'il s'exécute avec les privilèges de son propriétaire (souvent un utilisateur spécifique ou root) plutôt que ceux de l'utilisateur qui l'exécute.
+    Quand tu exécutes ./level03, le programme a accès à des ressources ou des droits supplémentaires nécessaires pour exécuter getflag et obtenir le flag.
+
+Preuve que le bit SUID est activé :
+Tu peux vérifier cela avec la commande :
+ls -l ./level03
+-> -rwsr-sr-x 1 flag03 level03 8627 Mar  5  2016 ./level03
+
+Le s dans rws indique que le programme est exécuté avec les droits de son propriétaire (ici flag03).
+Cela permet au binaire level03 d’accéder aux privilèges nécessaires pour exécuter getflag avec succès.
+cad quand on execute level03 apres modifs du path echo en getflag, cest comme si le user flag03 faisait la commande getflag -> on obtient bien le token sans avoir besoin du mot de passe du user flag03.
