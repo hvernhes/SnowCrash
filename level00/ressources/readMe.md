@@ -1,6 +1,6 @@
 ## Level 00: Finding the First Flag
 
-### Objective
+### Goal
 Locate the file owned by the user `flag00` and retrieve the password to progress to the next level.
 
 ### Steps

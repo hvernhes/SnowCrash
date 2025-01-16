@@ -1,6 +1,6 @@
 ## Level 02: Capturing and Analyzing Network Traffic
 
-### Objective
+### Goal
 Capture network traffic, analyze it with `Wireshark`, and retrieve the password for `flag02`.
 
 ### Steps

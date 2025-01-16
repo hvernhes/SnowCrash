@@ -1,6 +1,6 @@
 ## Level 01: Cracking the Password Hash
 
-### Objective
+### Goal
 Find the password hash for `flag01`, crack it, and retrieve the token to progress to the next level.
 
 ### Steps

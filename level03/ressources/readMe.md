@@ -1,6 +1,6 @@
 ## Level 03: Exploiting the Binary
 
-### Objective
+### Goal
 Retrieve the token by exploiting a binary named `level03`.
 
 ### Steps
