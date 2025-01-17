@@ -10,3 +10,6 @@
 ## Structure 🗂️
 The repository is organized with separate folders for each challenge, including resources and explanations of solutions. 📝  
 The project emphasizes understanding over brute force, requiring clear justification of each approach during evaluations.  ✅
+
+## Let's get started
+![VM SnowCrash](assets/snowcrash.PNG)
