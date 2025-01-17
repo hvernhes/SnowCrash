@@ -47,7 +47,7 @@ Locate and exploit a vulnerability in a cron task to retrieve the flag for this 
     ```
     The file `level05` appears in several directories.
 
-3. **Read the content of the level05 file**
+3. **Read the content of the `level05` file**  
     Use the following command:
     ```bash
     cat /var/mail/level05
@@ -60,7 +60,7 @@ Locate and exploit a vulnerability in a cron task to retrieve the flag for this 
     - `su -c` is a command to switch users and execute a specific command, in this case under flag05.
     - The line specifies that every 2 minutes, the script `/usr/sbin/openarenaserver` will be executed as user `flag05`.
 
-4. **Examine the script `/usr/sbin/openarenaserver`**  
+4. **Examine the script `/usr/sbin/openarenaserver`**   
     To understand its functionality:
     ```bash
     cat /usr/sbin/openarenaserver 
