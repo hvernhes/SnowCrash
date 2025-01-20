@@ -71,12 +71,10 @@ Le script ```level06.php``` définit deux fonctions, y et x, qui manipulent des 
 
     2.3  La fonction y:  
     ```php
-    function x($y, $z) { 
-    $a = file_get_contents($y);
-    $a = preg_replace("/(\[x (.*)\])/e", "y(\"\\2\")", $a);
-    $a = preg_replace("/\[/", "(", $a); 
-    $a = preg_replace("/\]/", ")", $a);
-    return $a;
+    function y($m) { 
+        $m = preg_replace("/\./", " x ", $m);
+        $m = preg_replace("/@/", " y", $m);
+        return $m; 
     }
     ```
     Cette fonction prend une chaîne de caractères m en entrée, applique 2 remplacements avec des expressions régulières, et retourne la chaîne modifiée :
