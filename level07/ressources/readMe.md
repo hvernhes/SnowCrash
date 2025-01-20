@@ -63,8 +63,8 @@ Analyze the executable `level07`, identify its functionality with GDB (GNU Debug
     0x08048630  __do_global_ctors_aux   
     0x0804865c  _fini                   
     ```
-	Here, two functions seems of interest: `getenv` and `system`. But we don't have enought informations.
-	- We proceed to disassemble the program, trying to find a vulnerability to exploit.
+  	Here, two functions seems of interest: `getenv` and `system`. But we don't have enought informations.
+- We proceed to disassemble the program, trying to find a vulnerability to exploit.
 	```bash
     (gdb) disassemble main   # Liste les fonctions du binaire 
     ```
