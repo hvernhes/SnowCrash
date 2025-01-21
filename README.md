@@ -11,7 +11,7 @@
 The repository is organized with separate folders for each challenge, including resources and explanations of solutions. 📝  
 The project emphasizes understanding over brute force, requiring clear justification of each approach during evaluations.  ✅
 
-## Let's get started
+## Let's get started 🚦🏁
 To complete this project, you will need to set up a virtual machine (VM) using VirtualBox and an ISO file.
 
 ### Prerequisites ⚙️
