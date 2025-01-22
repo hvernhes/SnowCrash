@@ -1,4 +1,4 @@
-# LEVEL 13: Exploiting UID Verification
+# Level 13: Exploiting UID Verification
 
 ## Goal
 Retrieve the token by manipulating the UID check in the `level13` binary using GDB.
