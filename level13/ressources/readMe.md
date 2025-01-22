@@ -1,7 +1,3 @@
-I'll rewrite the readme in a similar style to the Level 10 documentation.
-
-
-
 # LEVEL 13: Exploiting UID Verification
 
 ## Goal
